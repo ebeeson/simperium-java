@@ -1,0 +1,11 @@
+<configuration>
+	<appender name="testng" class="simperium.test.logback.TestNGReporterAppender">
+		<encoder>
+			<pattern>%msg</pattern>
+		</encoder>
+	</appender>
+
+	<root level="trace">
+		<appender-ref ref="testng"/>
+	</root>
+</configuration>

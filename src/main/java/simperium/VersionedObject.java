@@ -10,18 +10,19 @@ import com.google.gson.annotations.SerializedName;
  */
 public class VersionedObject<T> {
 	@SerializedName("v")
-	private long version;
+	private int version;
 	private String id;
+	@SerializedName("d")
 	private T data;
 
-	public VersionedObject() {
+	private VersionedObject() {
 	}
 
 	public VersionedObject(String version, String id, T data) {
-		this(Long.parseLong(version, 10), id, data);
+		this(Integer.parseInt(version, 10), id, data);
 	}
 
-	public VersionedObject(long version, String id, T data) {
+	public VersionedObject(int version, String id, T data) {
 		this.version = version;
 		this.id = id;
 		this.data = data;
@@ -52,7 +53,7 @@ public class VersionedObject<T> {
 	}
 
 	public int hashCode() {
-		int result = (int) (version ^ (version >>> 32));
+		int result = version;
 		result = 31 * result + (id != null ? id.hashCode() : 0);
 		result = 31 * result + (data != null ? data.hashCode() : 0);
 		return result;
@@ -61,9 +62,9 @@ public class VersionedObject<T> {
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("VersionedObject");
-		sb.append("[").append(id).append('[').append(version).append(']');
+		sb.append("{").append(id).append('[').append(version).append(']');
 		sb.append(":").append(data);
-		sb.append("]");
+		sb.append("}");
 		return sb.toString();
 	}
 }

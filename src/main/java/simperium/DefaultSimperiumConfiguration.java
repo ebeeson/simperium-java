@@ -25,7 +25,11 @@ public class DefaultSimperiumConfiguration implements SimperiumConfiguration {
 	private final HttpClient client;
 
 	public DefaultSimperiumConfiguration() {
-		this(null, null);
+		this((Gson) null, null);
+	}
+
+	public DefaultSimperiumConfiguration(GsonBuilder builder) {
+		this(builder, null);
 	}
 
 	public DefaultSimperiumConfiguration(Gson gson) {
@@ -33,21 +37,26 @@ public class DefaultSimperiumConfiguration implements SimperiumConfiguration {
 	}
 
 	public DefaultSimperiumConfiguration(HttpClient client) {
-		this(null, client);
+		this((Gson) null, client);
+	}
+
+	public DefaultSimperiumConfiguration(GsonBuilder builder, HttpClient client) {
+		this((builder != null ? builder.create() : (Gson)null), client);
 	}
 
 	public DefaultSimperiumConfiguration(Gson gson, HttpClient client) {
-		this.gson = (gson != null ? gson : defaultGsonBuilder().create());
+		this.gson = (gson != null ? gson : createGson(new GsonBuilder()));
 		this.client = (client != null ? client : new DefaultHttpClient(new PoolingClientConnectionManager()));
 	}
 
-	public static GsonBuilder defaultGsonBuilder() {
-		return new GsonBuilder()
+	private static Gson createGson(GsonBuilder builder) {
+		return builder
 				.registerTypeAdapter(JsonObject.class, TypeAdapters.JSON_ELEMENT)
 				.registerTypeAdapter(JsonArray.class, TypeAdapters.JSON_ELEMENT)
 				.registerTypeAdapter(JsonPrimitive.class, TypeAdapters.JSON_ELEMENT)
 				.registerTypeAdapter(JsonNull.class, TypeAdapters.JSON_ELEMENT)
-				.registerTypeAdapter(JsonElement.class, TypeAdapters.JSON_ELEMENT);
+				.registerTypeAdapter(JsonElement.class, TypeAdapters.JSON_ELEMENT)
+				.create();
 	}
 
 	public void shutdown() {

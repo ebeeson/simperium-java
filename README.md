@@ -1,7 +1,11 @@
 simperium-java
 ==============
 
-# Classes
+## Project Status
+
+This library was complete and worked well at the time of its development, but it has not been updated since 2012. If you are interested in updating or taking it over, please submit a PR.
+
+## Classes
 
 | Main |  |
 | --- | --- |
